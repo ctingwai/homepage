@@ -24,6 +24,8 @@ body.menu-shown #bg-overlay {opacity: 0.3;}
 
 #clock-wrap {color: #fff; font-size: 20px; position: absolute; top: 15px; right: 15px;}
 
+.category-label {color: #fff; font-size: 20px;}
+
 @media (min-width: 992px) {
   #links-wrap {margin-top: 15%; height: auto; font-size: 80px;}
 

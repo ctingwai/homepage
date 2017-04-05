@@ -9,10 +9,9 @@
 
 	function get_current_url() {
 		$protocol = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
-    $domainName = $_SERVER['SERVER_NAME'];
-    return $protocol . $domainName;
+        $domainName = $_SERVER['SERVER_NAME'];
+        return $protocol . $domainName;
 	}
-
 ?>
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -42,12 +41,19 @@
 
 		<div id="links-wrap" class="menu-item bg">
 			<?php
-				foreach ($config['items'] as $i => $item) {
-					$icon = $item['icon'];
-					$link = str_replace("{{cur}}", get_current_url(), $item['link']);
+                foreach ($config['item_categories'] as $category) {
+                    echo '<h2 class="category-label">' . $category['label'] . '</h2><div class="row">';
+                    foreach ($config['items'] as $i => $item) {
+                        if ($item['category_id'] === $category['id']) {
+                            $icon = $item['icon'];
+                            $link = str_replace("{{cur}}", get_current_url(), $item['link']);
 
-					echo '<div class="link col-md-4 col-xs-12"><a href="' . $link . '" title="' . $item['alt'] . '"><i class="fa fa-' . $icon . '"></i></a></div>';
-				}
+                            echo '<div class="link col-md-4 col-xs-12"><a href="';
+                            echo $link . '" title="' . $item['alt'] . '"><i class="fa fa-' . $icon . '"></i></a></div>';
+                        }
+                    }
+                    echo '</div>';
+                }
 			?>
 		</div>
 
@@ -56,47 +62,47 @@
 		</div>
 
 		<script type="text/javascript" src="hp_assets/js/jquery.min.js"></script>
-    <script type="text/javascript" src="hp_assets/js/mousetrap.min.js"></script>
-    <script type="text/javascript" src="hp_assets/js/main.js"></script>
-    <script type="text/javascript">
-    	Mousetrap.bind("<?= $config['unlock_pattern']; ?>", function() {
-			  toggleMenu();
-			});
+        <script type="text/javascript" src="hp_assets/js/mousetrap.min.js"></script>
+        <script type="text/javascript" src="hp_assets/js/main.js"></script>
+        <script type="text/javascript">
+            Mousetrap.bind("<?= $config['unlock_pattern']; ?>", function() {
+                  toggleMenu();
+                });
 
-			// Update the clock
-			function updateClock () {
-			  // Update the time display
-			  document.getElementById("clock").textContent = new Date().format("<?= $config['clock_format']; ?>");
-			}
+                // Update the clock
+                function updateClock () {
+                  // Update the time display
+                  document.getElementById("clock").textContent = new Date().format("<?= $config['clock_format']; ?>");
+                }
 
-			<?php
-				// http://stackoverflow.com/a/10126042
-				if (isset($config['idle_timer'])) {
-			?>
-				var inactivityTime = function () {
-					var t;
-					window.onload = resetTimer;
-					document.onmousemove = resetTimer;
-					document.onkeypress  = resetTimer;
-					document.onmousedown = resetTimer;
+                <?php
+                    // http://stackoverflow.com/a/10126042
+                    if (isset($config['idle_timer'])) {
+                ?>
+                    var inactivityTime = function () {
+                        var t;
+                        window.onload = resetTimer;
+                        document.onmousemove = resetTimer;
+                        document.onkeypress  = resetTimer;
+                        document.onmousedown = resetTimer;
 
-					function hideMenu() {
-						setMenuVisibility(false);
-					}
+                        function hideMenu() {
+                            setMenuVisibility(false);
+                        }
 
-					function resetTimer() {
-						clearTimeout(t);
-						t = setTimeout(hideMenu, <?= $config['idle_timer']; ?>)
-					}
-				};
+                        function resetTimer() {
+                            clearTimeout(t);
+                            t = setTimeout(hideMenu, <?= $config['idle_timer']; ?>)
+                        }
+                    };
 
-				inactivityTime();
-			<?php
-				}
-			?>
+                    inactivityTime();
+                <?php
+                    }
+                ?>
 
-			updateClock();
-			setInterval('updateClock()', 5000);
-    </script>
+                updateClock();
+                setInterval('updateClock()', 5000);
+        </script>
 	</body>
 </html>

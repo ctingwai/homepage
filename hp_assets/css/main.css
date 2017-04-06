@@ -27,7 +27,7 @@ body.menu-shown #bg-overlay {opacity: 0.3;}
 .category-label {color: #fff; font-size: 20px;}
 
 @media (min-width: 992px) {
-  #links-wrap {margin-top: 15%; height: auto; font-size: 80px;}
+  #links-wrap {margin-top: 5%; height: 75%; font-size: 80px; margin-bottom: 5%;}
 
   #clock-wrap {font-size: 30px;}
 }
